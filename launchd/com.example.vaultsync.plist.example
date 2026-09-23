@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Синхронизация хранилища с GitHub раз в 30 минут.
+  Скопировать в ~/Library/LaunchAgents/com.example.vaultsync.plist
+  и заменить ПОЛЬЗОВАТЕЛЬ на имя своей учётной записи.
+  Секретов здесь нет: ключ SSH лежит отдельно, в ~/.ssh.
+-->
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.example.vaultsync</string>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/ПОЛЬЗОВАТЕЛЬ/bin/brain-runner</string>
+		<string>vaultsync</string>
+	</array>
+
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>VAULT</key>
+		<string>/Users/ПОЛЬЗОВАТЕЛЬ/Library/Mobile Documents/iCloud~md~obsidian/Documents/brain</string>
+	</dict>
+
+	<!-- раз в 30 минут; пропущенные во сне срабатывания не догоняются -->
+	<key>StartInterval</key>
+	<integer>1800</integer>
+	<key>RunAtLoad</key>
+	<true/>
+
+	<key>StandardOutPath</key>
+	<string>/Users/ПОЛЬЗОВАТЕЛЬ/Library/Logs/vault-sync.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/ПОЛЬЗОВАТЕЛЬ/Library/Logs/vault-sync.log</string>
+</dict>
+</plist>

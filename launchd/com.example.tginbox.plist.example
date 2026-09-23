@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Бот-приёмник: постоянный процесс, long polling.
+  Скопировать в ~/Library/LaunchAgents/com.example.tginbox.plist,
+  заменить ПОЛЬЗОВАТЕЛЬ на имя своей учётной записи, вписать токен и id чата,
+  поставить права 600 — внутри секрет:
+      chmod 600 ~/Library/LaunchAgents/com.example.tginbox.plist
+-->
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.example.tginbox</string>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/ПОЛЬЗОВАТЕЛЬ/bin/brain-runner</string>
+		<string>tginbox</string>
+	</array>
+
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>TG_TOKEN</key>
+		<string>ВСТАВЬ_ТОКЕН</string>
+		<key>TG_CHAT_ID</key>
+		<string>ВСТАВЬ_ID_ЧАТА</string>
+		<key>VAULT</key>
+		<string>/Users/ПОЛЬЗОВАТЕЛЬ/Library/Mobile Documents/iCloud~md~obsidian/Documents/brain</string>
+		<key>CAL_NAME</key>
+		<string>brain</string>
+		<key>REM_LIST</key>
+		<string>brain</string>
+	</dict>
+
+	<!-- процесс должен работать всегда: упал или вышел — launchd поднимет снова -->
+	<key>KeepAlive</key>
+	<true/>
+	<key>RunAtLoad</key>
+	<true/>
+	<!-- не перезапускать чаще раза в 10 секунд -->
+	<key>ThrottleInterval</key>
+	<integer>10</integer>
+	<!-- сколько ждать после SIGTERM: бот может ждать ответа Календаря до 60 с -->
+	<key>ExitTimeOut</key>
+	<integer>90</integer>
+
+	<key>StandardOutPath</key>
+	<string>/Users/ПОЛЬЗОВАТЕЛЬ/Library/Logs/tg-inbox.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/ПОЛЬЗОВАТЕЛЬ/Library/Logs/tg-inbox.log</string>
+</dict>
+</plist>

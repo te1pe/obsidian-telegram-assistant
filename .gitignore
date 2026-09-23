@@ -1,0 +1,34 @@
+# ---- Секреты: токен бота живёт только на машине ----
+.env
+.env.*
+!.env.example
+*.token
+secrets/
+
+# ---- Собранный запускатор ----
+runner/brain-runner
+brain-runner
+*.o
+*.dSYM/
+
+# ---- Готовые plist: в них абсолютные пути и токен ----
+launchd/*.plist
+!launchd/*.plist.example
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ---- Рабочее состояние бота ----
+state/
+*.log
+*.offset
+
+# ---- macOS / редакторы ----
+.DS_Store
+._*
+.idea/
+.vscode/
+.claude/
