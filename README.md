@@ -1,50 +1,47 @@
 # obsidian-telegram-assistant
 
-A Telegram bot that turns a message into an Obsidian note in a second, and
-"/e завтра 15:00 90 Созвон" into a macOS Calendar event.
+Telegram-бот, который за секунду превращает сообщение в заметку Obsidian,
+а «/e завтра 15:00 90 Созвон» — в событие Календаря macOS.
 
-Written for myself, runs every day. No third-party libraries: just Python and
-launchd.
+Написан для себя, работает каждый день. Никаких сторонних библиотек: только
+Python и launchd.
 
-The bot parses Russian input — dates, weekdays and recurrence are written in
-Russian, so the commands below are shown as they are actually typed.
+## Что умеет
 
-## What it does
-
-| You send the bot | You get | Latency |
+| Отправляешь боту | Получаешь | Задержка |
 |---|---|---|
-| any text | a note `inbox/YYYY-MM-DD-HHMMSS.md` with frontmatter | 1–2 seconds |
-| `/e завтра 15:00 90 Созвон` | an event in Calendar | 1–2 seconds |
-| `/r пт 19:00 Позвонить маме` | a reminder in Reminders | 1–2 seconds |
-| `/e будни 09:00 15 Планирование` | a recurring event — after confirmation | |
-| `/stats` | how many notes have piled up, when the last sync ran | |
+| любой текст | заметку `inbox/YYYY-MM-DD-HHMMSS.md` с frontmatter | 1–2 секунды |
+| `/e завтра 15:00 90 Созвон` | событие в Календаре | 1–2 секунды |
+| `/r пт 19:00 Позвонить маме` | напоминание в Напоминаниях | 1–2 секунды |
+| `/e будни 09:00 15 Планирование` | повторяющееся событие — после подтверждения | |
+| `/stats` | сколько заметок накопилось, когда была последняя синхронизация | |
 
-Events and reminders can also be created with buttons, without commands.
+События и напоминания можно создавать и кнопками, без команд.
 
-## Installation
+## Установка
 
-In detail — see [docs/setup.md](docs/setup.md). In short:
+Подробно — в [docs/setup.md](docs/setup.md). Коротко:
 
 ```bash
-cp src/*.py scripts/*.sh ~/bin/          # scripts
-./runner/build.sh                        # launcher + code signing
-cp launchd/*.example ~/Library/LaunchAgents/   # schedule, then fill in the token
+cp src/*.py scripts/*.sh ~/bin/                # скрипты
+./runner/build.sh                              # лаунчер + подпись кода
+cp launchd/*.example ~/Library/LaunchAgents/   # расписание, затем вписать токен
 ```
 
-Requires macOS 13+, the system Python 3.9 and the Command Line Tools.
-The Obsidian vault can live anywhere — the path is set by the `VAULT` variable.
+Нужны macOS 13+, системный Python 3.9 и Command Line Tools.
+Хранилище Obsidian может лежать где угодно — путь задаётся переменной `VAULT`.
 
 ---
 
-## What it is made of
+## Из чего состоит
 
 ```
-src/tg-inbox.py        the bot: receiving messages, notes, events, reminders
-src/shrink-images.py   one-off compression of vault images to WebP
-scripts/vault-sync.sh  commits and pushes the vault to git every half hour
-scripts/add-event.sh   create an event from the terminal
-runner/brain-runner.c  launcher in C: the holder of the macOS permissions
-launchd/               example plists
-templates/CLAUDE.md    note-parsing rules for Claude Code
-docs/                  installation and architecture
+src/tg-inbox.py        бот: приём сообщений, заметки, события, напоминания
+src/shrink-images.py   разовое сжатие картинок хранилища в WebP
+scripts/vault-sync.sh  каждые полчаса коммитит и пушит хранилище в git
+scripts/add-event.sh   создать событие из терминала
+runner/brain-runner.c  лаунчер на C: держатель разрешений macOS
+launchd/               примеры plist
+templates/CLAUDE.md    правила разбора заметок для Claude Code
+docs/                  установка и архитектура
 ```
